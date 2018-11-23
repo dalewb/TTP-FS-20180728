@@ -9,15 +9,27 @@ class Transactions extends Component {
     }
   }
 
+  // This is going to be a fetch to the backend for user's stocks info
   componentDidMount() {
     fetch('https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl&types=quote')
       .then(res => res.json())
-      // .then(data => console.log(data))
       .then(data => {
         console.log(data)
         this.setState({
           stocks: data
-        })})
+        })
+      })
+  }
+
+  getStocks = () => {
+    fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${this.state.searchSymbol}&types=quote`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.setState({
+          stocks: data
+        })
+      })
   }
 
   renderStocks = () => {
@@ -42,7 +54,7 @@ class Transactions extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log(this.state.searchSymbol);
+    this.getStocks()
   }
 
   render() {
