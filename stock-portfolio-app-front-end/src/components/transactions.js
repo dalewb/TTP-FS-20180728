@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-class Transaction extends Component {
+class Transactions extends Component {
   render() {
     return (
-      <p>Transaction Page</p>
+      <p>Transactions Page</p>
     )
   }
 }
 
-export default Transaction;
+export default Transactions;
