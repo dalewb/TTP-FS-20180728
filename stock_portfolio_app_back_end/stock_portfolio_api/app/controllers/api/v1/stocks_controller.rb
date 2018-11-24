@@ -1,7 +1,7 @@
 class Api::V1::StocksController < ApplicationController
   def index
     stocks = Stock.all
-    render json: status: 'SUCCESS', message: 'Loaded stocks', data: stocks}, status: :ok
+    render json: {status: 'SUCCESS', message: 'Loaded stocks', data: stocks}, status: :ok
   end
 
   def show

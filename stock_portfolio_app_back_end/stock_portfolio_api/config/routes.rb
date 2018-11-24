@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :stocks
-  resources :transactions
   namespace 'api' do
     namespace 'v1' do
       resources :users
+      resources :stocks
+      resources :transactions
     end
-  end 
+  end
 end
