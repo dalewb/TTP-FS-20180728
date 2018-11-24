@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  price: 9.99
+  number_of_shares: 1
+
+two:
+  price: 9.99
+  number_of_shares: 1
