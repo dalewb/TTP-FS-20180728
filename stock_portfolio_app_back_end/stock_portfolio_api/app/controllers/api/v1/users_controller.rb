@@ -10,7 +10,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    user = User.new(article_params.merge({account: 5000}))
+    user = User.new(user_params.merge({account: 5000}))
     if user.save
       render json: {status: 'SUCCESS', message: 'Saved user', data: user}, status: :ok
     else
@@ -26,8 +26,7 @@ class Api::V1::UsersController < ApplicationController
 
   private
 
-  def article_params
+  def user_params
     params.permit(:name, :email, :password)
   end
-
 end
