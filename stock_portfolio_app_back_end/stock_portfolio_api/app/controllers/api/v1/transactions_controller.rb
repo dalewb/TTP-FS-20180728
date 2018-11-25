@@ -1,7 +1,7 @@
 class Api::V1::TransactionsController < ApplicationController
   def index
-    transactions = Transation.all
-    render json: {status: 'SUCCESS', message: 'Loaded transactions', data: transactionss}, status: :ok
+    transactions = Transaction.all
+    render json: {status: 'SUCCESS', message: 'Loaded transactions', data: transactions}, status: :ok
   end
 
   def show
