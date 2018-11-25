@@ -11,6 +11,7 @@ class Api::V1::TransactionsController < ApplicationController
 
   def create
     transaction = Transaction.new(transaction_params)
+    # byebug
     if transaction.save
       render json: {status: 'SUCCESS', message: 'Saved transaction', data: transaction}, status: :ok
     else

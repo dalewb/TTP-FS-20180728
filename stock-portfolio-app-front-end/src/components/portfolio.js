@@ -32,7 +32,8 @@ class Portfolio extends Component {
         console.log('Data in fetch is ', data)
         this.setState({
           stocks: data,
-          stockSymbol: Object.keys(data)[0]
+          stockSymbol: Object.keys(data)[0],
+          currentPrice: Object.values(data)[0].quote.latestPrice,
         })
       })
   }
@@ -51,25 +52,39 @@ class Portfolio extends Component {
     })
   }
 
+  createTransaction = (data) => {
+    const bodyData = JSON.stringify({
+      user_id: 1,
+      stock_id: data.id,
+      price: data.current_price,
+      number_of_shares: this.state.numberOfShares,
+    })
+    fetch("http://localhost:3000/api/v1/transactions/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: bodyData
+    })
+      .then(res => res.json())
+      .then(json => console.log("In createTransaction, after fetch json is ",json))
+  }
+
   makePurchase = () => {
     const bodyData = JSON.stringify({
       symbol: this.state.stockSymbol,
       current_price: this.state.currentPrice
     })
-    console.log("bodyData is ", bodyData);
     fetch("http://localhost:3000/api/v1/stocks/", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({
-        symbol: this.state.stockSymbol,
-        current_price: this.state.currentPrice
-      })
+      body: bodyData
     })
       .then(res => res.json())
-      .then(data => console.log("makePurchase data is ",data))
+      .then(json => this.createTransaction(json.data))
   }
 
   handleSearchChange = (e) => {
@@ -97,7 +112,7 @@ class Portfolio extends Component {
   render() {
     return (
       <div>
-        <h3>Transactions Page</h3>
+        <h3>Portfolio</h3>
         {this.renderStocks()}
         <p>Search for a company</p>
         <form onSubmit={this.handleSearchSubmit}>
@@ -110,12 +125,15 @@ class Portfolio extends Component {
         </form>
         <p>Make a purchase</p>
         <form onSubmit={this.handleBuySubmit}>
-          <input
-            type="number"
-            min={0}
-            value={this.state.numberOfShares}
-            onChange={this.handleBuyChange}
-          />
+          <label>
+            Number of Shares:
+            <input
+              type="number"
+              min={0}
+              value={this.state.numberOfShares}
+              onChange={this.handleBuyChange}
+            />
+          </label>
           <input type="submit" value="Submit"/>
         </form>
       </div>
