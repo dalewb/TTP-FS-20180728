@@ -5,6 +5,7 @@ class Portfolio extends Component {
   constructor() {
     super()
     this.state = {
+      user: JSON.parse(sessionStorage.getItem("user")),
       stocks: {},
       searchSymbol: '',
       numberOfShares: 0,
@@ -52,9 +53,30 @@ class Portfolio extends Component {
     })
   }
 
-  createTransaction = (data) => {
+  changeUserAccount = (amount) => {
     const bodyData = JSON.stringify({
-      user_id: 1,
+      account: (this.state.user.account - amount)
+    })
+    fetch(`http://localhost:3000/api/v1/users/${this.state.user.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: bodyData
+    })
+      .then(res => res.json())
+      .then(json => console.log(json))
+  }
+
+  createTransaction = (data) => {
+    const transactionCost = data.current_price * this.state.numberOfShares
+    if (this.state.user.account < transactionCost) {
+      alert("You do not have enough money in your account for this transaction")
+      return
+    }
+    const bodyData = JSON.stringify({
+      user_id: this.state.user.id,
       stock_id: data.id,
       price: data.current_price,
       number_of_shares: this.state.numberOfShares,
@@ -63,11 +85,12 @@ class Portfolio extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
       },
       body: bodyData
     })
       .then(res => res.json())
-      .then(json => console.log("In createTransaction, after fetch json is ",json))
+      .then(json => this.changeUserAccount(transactionCost))
   }
 
   makePurchase = () => {
@@ -136,6 +159,7 @@ class Portfolio extends Component {
           </label>
           <input type="submit" value="Submit"/>
         </form>
+        {console.log(this.state.user)}
       </div>
     )
   }

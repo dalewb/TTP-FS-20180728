@@ -18,6 +18,11 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update
+    user = User.find(params[:id])
+    render json: {status: 'SUCCESS', message: 'Updated user', data: user}, status: :ok
+  end
+
   def destroy
     user = User.find(params[:id])
     user.destroy

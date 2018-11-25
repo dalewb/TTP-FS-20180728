@@ -14,11 +14,8 @@ class App extends Component {
     const returnUser = userData.filter(user => {
       return user.email === email && user.password === password
     })
-    // debugger
     if (returnUser) {
-      this.setState({
-        user: returnUser[0]
-      })
+      sessionStorage.setItem("user", JSON.stringify(returnUser[0]))
     }
   }
 

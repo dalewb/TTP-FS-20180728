@@ -42,7 +42,6 @@ class SignIn extends Component {
           </label>
           <input type="submit" value="Submit"/>
         </form>
-        {console.log("SignIn props are ", this.props)}
       </div>
     )
   }

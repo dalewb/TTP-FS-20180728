@@ -11,8 +11,8 @@ const AppRouter = (props) => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" render={() => <Portfolio user={props.user}/>} exact={true} />
-        <Route path="/transactions" render={() => <Transactions user={props.user}/>} />
+        <Route path="/" component={Portfolio} exact={true} />
+        <Route path="/transactions" component={Transactions} />
         <Route path="/signIn" render={() => <SignIn getUser={props.getUser} user={props.user}/>} />
         <Route path="/register" component={Register} />
       </Switch>
