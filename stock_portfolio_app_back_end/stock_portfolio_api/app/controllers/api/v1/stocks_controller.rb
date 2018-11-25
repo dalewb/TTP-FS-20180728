@@ -11,10 +11,11 @@ class Api::V1::StocksController < ApplicationController
 
   def create
     stock = Stock.new(stock_params)
+    # byebug
     if stock.save
       render json: {status: 'SUCCESS', message: 'Saved stock', data: stock}, status: :ok
     else
-      render json: {status: 'ERROR', message: 'Stock not saved', data: stock.errors}, status: :unprocessable_entity
+      render json: {status: 'ERROR', message: 'Stock not saved', data: stock.errors, params: params}, status: :unprocessable_entity
     end
   end
 

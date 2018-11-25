@@ -6,6 +6,9 @@ class Transactions extends Component {
     this.state = {
       stocks: {},
       searchSymbol: '',
+      numberOfShares: 0,
+      currentPrice: 0,
+      stockSymbol: '',
     }
   }
 
@@ -16,7 +19,7 @@ class Transactions extends Component {
       .then(data => {
         console.log(data)
         this.setState({
-          stocks: data
+          stocks: data,
         })
       })
   }
@@ -25,9 +28,10 @@ class Transactions extends Component {
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${this.state.searchSymbol}&types=quote`)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        console.log('Data in fetch is ', data)
         this.setState({
-          stocks: data
+          stocks: data,
+          stockSymbol: Object.keys(data)[0]
         })
       })
   }
@@ -46,15 +50,65 @@ class Transactions extends Component {
     })
   }
 
-  handleChange = (e) => {
+  makePurchase = () => {
+    const bodyData = JSON.stringify({
+      symbol: this.state.stockSymbol,
+      current_price: this.state.currentPrice
+    })
+    console.log("bodyData is ", bodyData);
+    fetch("http://localhost:3000/api/v1/stocks/", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        symbol: this.state.stockSymbol,
+        current_price: this.state.currentPrice
+      })
+    })
+      .then(res => res.json())
+      .then(data => console.log("makePurchase data is ",data))
+  }
+
+  testPost = () => {
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application-json",
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        title: "test",
+        body: '123',
+        userId: 21
+      })
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+  }
+
+  handleSearchChange = (e) => {
     this.setState({
       searchSymbol: e.target.value
     })
   }
 
-  handleSubmit = (e) => {
+  handleSearchSubmit = (e) => {
     e.preventDefault()
     this.getStocks()
+  }
+
+  handleBuyChange = (e) => {
+    this.setState({
+      numberOfShares: e.target.value
+    })
+  }
+
+  handleBuySubmit = (e) => {
+    e.preventDefault()
+    this.makePurchase()
+    // this.testPost()
   }
 
   render() {
@@ -62,11 +116,19 @@ class Transactions extends Component {
       <div>
         <p>Transactions Page</p>
         {this.renderStocks()}
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSearchSubmit}>
           <input
             type="text"
             value={this.state.searchSymbol}
-            onChange={this.handleChange}
+            onChange={this.handleSearchChange}
+          />
+          <input type="submit" value="Submit"/>
+        </form>
+        <form onSubmit={this.handleBuySubmit}>
+          <input
+            type="number"
+            value={this.state.numberOfShares}
+            onChange={this.handleBuyChange}
           />
           <input type="submit" value="Submit"/>
         </form>
