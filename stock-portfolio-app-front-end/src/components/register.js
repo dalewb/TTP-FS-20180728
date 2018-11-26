@@ -12,6 +12,34 @@ class Register extends Component {
     }
   }
 
+  addUser = () => {
+    const userData = JSON.stringify({
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      account: 5000,
+    })
+    if (this.state.name && this.state.email && this.state.password) {
+      fetch('http://localhost:3000/api/v1/users/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: userData
+      })
+      .then(res => res.json())
+      .then(json => console.log("addUser json is ", json))
+      .catch(err => {
+        err.text().then(errorMessage => {
+          this.setState({
+            error: errorMessage
+          })
+        })
+      })
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.state.password !== this.state.confirmPassword) {
@@ -21,10 +49,10 @@ class Register extends Component {
         errors: "Passwords must match"
       })
     } else {
-      console.log(this.state)
       this.setState({
         errors: ''
       })
+      this.addUser()
     }
   }
 
@@ -53,7 +81,7 @@ class Register extends Component {
             Email:
             <input
               name="email"
-              type="text"
+              type="email"
               value={this.state.email}
               onChange={this.handleChange}
             />
@@ -78,7 +106,7 @@ class Register extends Component {
           </label>
           <input type="submit" value="Submit"/>
         </form>
-        {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
+        {this.state.errors && <p>{this.state.errors}</p>}
       </div>
     )
   }
