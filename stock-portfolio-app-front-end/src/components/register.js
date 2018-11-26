@@ -12,6 +12,16 @@ class Register extends Component {
     }
   }
 
+  catchUserError = (json) => {
+    if (json.status === "ERROR") {
+      this.setState({
+        errors: "Email already exists"
+      })
+    } else {
+      sessionStorage.setItem("user", JSON.stringify(json.data))
+    }
+  }
+
   addUser = () => {
     const userData = JSON.stringify({
       name: this.state.name,
@@ -29,14 +39,7 @@ class Register extends Component {
         body: userData
       })
       .then(res => res.json())
-      .then(json => console.log("addUser json is ", json))
-      .catch(err => {
-        err.text().then(errorMessage => {
-          this.setState({
-            error: errorMessage
-          })
-        })
-      })
+      .then(json => this.catchUserError(json))
     }
   }
 
