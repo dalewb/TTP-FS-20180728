@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/portfolio.css';
 
 class Portfolio extends Component {
 
@@ -32,7 +33,6 @@ class Portfolio extends Component {
 
   componentDidMount = () => {
     this.getTransactions()
-    this.getPortfolioValue()
     this.timer = setInterval(() => this.getPortfolioValue(), 5000)
   }
 
@@ -49,6 +49,8 @@ class Portfolio extends Component {
         })
         this.setState({
           transactions,
+          numberOfShares: 0,
+          searchSymbol: '',
         })
       })
   }
@@ -62,11 +64,19 @@ class Portfolio extends Component {
 
   renderAllStocks = (currentPortfolio) => {
     return Object.entries(currentPortfolio).map(stock => {
+      let renderColor = "black"
+      if (stock[1].openPrice < stock[1].price) {
+        renderColor = "green"
+      } else if (stock[1].openPrice > stock[1].price) {
+        renderColor = "red"
+      } else {
+        renderColor = "grey"
+      }
       return (
-        <div key={stock[0]}>
-          <p>{stock[0]}</p>
-          <p>{stock[1].totalShares} shares</p>
-          <p>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+        <div key={stock[0]} className="stock-info">
+          <p className="stock-info__element">{stock[0]}</p>
+          <p className="stock-info__element">{stock[1].totalShares} shares</p>
+          <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
         </div>
       )
     })
@@ -81,16 +91,19 @@ class Portfolio extends Component {
         if (currentPortfolio[transaction.symbol]) {
           currentPortfolio[transaction.symbol] = {
             totalShares: currentPortfolio[transaction.symbol].totalShares + transaction.number_of_shares,
-            price: json[transaction.symbol].quote.latestPrice
+            price: json[transaction.symbol].quote.latestPrice,
+            openPrice: json[transaction.symbol].quote.open
           }
         } else {
           currentPortfolio[transaction.symbol] = {
             totalShares: transaction.number_of_shares,
-            price: json[transaction.symbol].quote.latestPrice
+            price: json[transaction.symbol].quote.latestPrice,
+            openPrice: json[transaction.symbol].quote.latestPrice.open
           }
         }
       })
     }
+    console.log(currentPortfolio)
     this.setState({
       currentValue: totalPrice.toFixed(2),
       currentPortfolio,
@@ -151,7 +164,7 @@ class Portfolio extends Component {
   updateUser = (json) => {
     sessionStorage.setItem("user", JSON.stringify(json.data))
     this.setState({
-      user: JSON.parse(sessionStorage.getItem("user"))
+      user: JSON.parse(sessionStorage.getItem("user")),
     }, this.getTransactions())
   }
 
@@ -238,7 +251,7 @@ class Portfolio extends Component {
     e.preventDefault()
     if (this.state.numberOfShares > 0) {
       this.setState({
-        errors: ''
+        errors: '',
       })
       this.makePurchase()
     } else {
@@ -251,7 +264,7 @@ class Portfolio extends Component {
   render() {
     return (
       <div>
-        <h3>Portfolio</h3>
+        <h3>Portfolio {this.state.currentValue ? <p>{"$" + this.state.currentValue}</p> : null}</h3>
         {this.renderStocks()}
         <p>Search for a company</p>
         <form onSubmit={this.handleSearchSubmit}>
@@ -278,7 +291,6 @@ class Portfolio extends Component {
         {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
         {console.log(this.state.user)}
         <button onClick={this.getPortfolioValue}>Get Current Portfolio Value</button>
-        <p>${this.state.currentValue}</p>
         <p>All Stocks:</p>
         {this.renderAllStocks(this.state.currentPortfolio)}
       </div>
