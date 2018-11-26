@@ -13,6 +13,7 @@ class Portfolio extends Component {
       stockSymbol: '',
       transactions: [],
       currentValue: '',
+      currentPortfolio: {},
       errors: ''
     }
   }
@@ -53,8 +54,16 @@ class Portfolio extends Component {
     })
   }
 
-  renderAllStocks = () => {
-
+  renderAllStocks = (currentPortfolio) => {
+    return Object.entries(currentPortfolio).map(stock => {
+      return (
+        <div key={stock[0]}>
+          <p>{stock[0]}</p>
+          <p>{stock[1].totalShares} shares</p>
+          <p>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+        </div>
+      )
+    })
   }
 
   getAllPrices = (symbols, json) => {
@@ -77,9 +86,9 @@ class Portfolio extends Component {
         }
       })
     }
-    console.log(currentPortfolio)
     this.setState({
-      currentValue: totalPrice
+      currentValue: totalPrice.toFixed(2),
+      currentPortfolio,
     })
   }
 
@@ -103,12 +112,20 @@ class Portfolio extends Component {
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${this.state.searchSymbol}&types=quote`)
       .then(res => res.json())
       .then(data => {
-        console.log('Data in fetch is ', data)
-        this.setState({
-          stocks: data,
-          stockSymbol: Object.keys(data)[0],
-          currentPrice: Object.values(data)[0].quote.latestPrice,
-        })
+        console.log('Data in fetch is ',data)
+        if (Object.keys(data).length > 0) {
+          console.log("valid")
+          this.setState({
+            stocks: data,
+            stockSymbol: Object.keys(data)[0],
+            currentPrice: Object.values(data)[0].quote.latestPrice,
+            errors: '',
+          })
+        } else {
+          this.setState({
+            errors: "Invalid Ticker Symbol"
+          })
+        }
       })
   }
 
@@ -240,7 +257,7 @@ class Portfolio extends Component {
           />
           <input type="submit" value="Submit"/>
         </form>
-        <p>Make a purchase</p>
+        <p>Buy Stock</p>
         <form onSubmit={this.handleBuySubmit}>
           <label>
             Number of Shares:
@@ -258,7 +275,7 @@ class Portfolio extends Component {
         <button onClick={this.getPortfolioValue}>Get Current Portfolio Value</button>
         <p>{this.state.currentValue}</p>
         <p>All Stocks:</p>
-        {}
+        {this.renderAllStocks(this.state.currentPortfolio)}
       </div>
     )
   }
