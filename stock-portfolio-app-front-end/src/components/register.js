@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class Register extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       name: '',
       email: '',
@@ -19,6 +19,7 @@ class Register extends Component {
       })
     } else {
       sessionStorage.setItem("user", JSON.stringify(json.data))
+      this.props.logIn()
     }
   }
 

@@ -32,6 +32,12 @@ class Portfolio extends Component {
 
   componentDidMount = () => {
     this.getTransactions()
+    this.getPortfolioValue()
+    this.timer = setInterval(() => this.getPortfolioValue(), 5000)
+  }
+
+  componentWillUnmount= () => {
+    clearInterval(this.timer)
   }
 
   getTransactions = () => {
@@ -67,12 +73,11 @@ class Portfolio extends Component {
   }
 
   getAllPrices = (symbols, json) => {
-    let currentPrices = {}
     let currentPortfolio = {}
     let totalPrice = 0
     if (symbols.length > 0) {
       this.state.transactions.forEach(transaction => {
-        totalPrice += json[transaction.symbol].quote.latestPrice
+        totalPrice += (json[transaction.symbol].quote.latestPrice * transaction.number_of_shares)
         if (currentPortfolio[transaction.symbol]) {
           currentPortfolio[transaction.symbol] = {
             totalShares: currentPortfolio[transaction.symbol].totalShares + transaction.number_of_shares,
@@ -273,7 +278,7 @@ class Portfolio extends Component {
         {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
         {console.log(this.state.user)}
         <button onClick={this.getPortfolioValue}>Get Current Portfolio Value</button>
-        <p>{this.state.currentValue}</p>
+        <p>${this.state.currentValue}</p>
         <p>All Stocks:</p>
         {this.renderAllStocks(this.state.currentPortfolio)}
       </div>

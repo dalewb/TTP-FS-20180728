@@ -26,15 +26,6 @@ class SignIn extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.getUser(this.state.email, this.state.password)
-    if (!sessionStorage.user) {
-      this.setState({
-        error: "Invalid Input"
-      })
-    } else {
-      this.setState({
-        error: ""
-      })
-    }
   }
 
   render() {
@@ -52,7 +43,6 @@ class SignIn extends Component {
           </label>
           <input type="submit" value="Submit"/>
         </form>
-        {this.state.error && <p>{this.state.error}</p>}
       </div>
     )
   }

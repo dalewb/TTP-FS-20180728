@@ -17,6 +17,12 @@ class App extends Component {
     })
   }
 
+  logIn = () => {
+    this.setState({
+      loggedIn: true
+    })
+  }
+
   setUser = (userData, email, password) => {
     const returnUser = userData.filter(user => {
       return user.email === email && user.password === password
@@ -26,6 +32,8 @@ class App extends Component {
       this.setState({
         loggedIn: true,
       })
+    } else {
+      alert("Incorrect Email or Password")
     }
   }
 
@@ -42,6 +50,7 @@ class App extends Component {
           getUser={this.getUser}
           user={this.state.user}
           logOut={this.logOut}
+          logIn={this.logIn}
           loggedIn={this.state.loggedIn}
           signInError={this.state.signInError}
         />
