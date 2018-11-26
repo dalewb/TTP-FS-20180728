@@ -15,7 +15,7 @@ class Header extends Component {
           <NavLink to="/transactions" activeClassName="is-active" style={padding}>Transactions</NavLink>
           <NavLink to="/register" activeClassName="is-active" style={padding}>Register</NavLink>
           {!sessionStorage.user ? <NavLink to="/signin" activeClassName="is-active" style={padding}>Log In</NavLink> : null}
-          {sessionStorage.user ? <NavLink to="/signin" activeClassName="is-active" style={padding}>Log Out</NavLink> : null}
+          {sessionStorage.user ? <NavLink to="/signout" activeClassName="is-active" style={padding}>Log Out</NavLink> : null}
       </div>
     )
   }

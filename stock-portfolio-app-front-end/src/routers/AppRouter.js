@@ -4,6 +4,7 @@ import Header from '../components/header';
 import Portfolio from '../components/portfolio';
 import Transactions from '../components/transactions';
 import SignIn from '../components/signIn';
+import SignOut from '../components/signOut';
 import Register from '../components/register';
 
 const AppRouter = (props) => (
@@ -11,9 +12,10 @@ const AppRouter = (props) => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" component={Portfolio} exact={true} />
-        <Route path="/transactions" component={Transactions} />
-        <Route path="/signIn" render={() => <SignIn getUser={props.getUser} user={props.user}/>} />
+        <Route path="/" component={props.loggedIn ? Portfolio : null} exact={true} />
+        <Route path="/transactions" component={props.loggedIn ? Transactions : null} />
+        <Route path="/signin" render={() => <SignIn getUser={props.getUser} user={props.user}/>} />
+        <Route path="/signout" render={() => <SignOut getUser={props.getUser} user={props.user} logOut={props.logOut}/>} />
         <Route path="/register" component={Register} />
       </Switch>
     </div>

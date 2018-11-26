@@ -7,15 +7,25 @@ class App extends Component {
     super()
     this.state = {
       user: {},
+      loggedIn: false,
     }
+  }
+
+  logOut = () => {
+    this.setState({
+      loggedIn: false
+    })
   }
 
   setUser = (userData, email, password) => {
     const returnUser = userData.filter(user => {
       return user.email === email && user.password === password
     })
-    if (returnUser) {
+    if (returnUser.length === 1) {
       sessionStorage.setItem("user", JSON.stringify(returnUser[0]))
+      this.setState({
+        loggedIn: true,
+      })
     }
   }
 
@@ -28,7 +38,13 @@ class App extends Component {
   render() {
     return (
       <div>
-        <AppRouter getUser={this.getUser} user={this.state.user}/>
+        <AppRouter
+          getUser={this.getUser}
+          user={this.state.user}
+          logOut={this.logOut}
+          loggedIn={this.state.loggedIn}
+          signInError={this.state.signInError}
+        />
       </div>
     );
   }

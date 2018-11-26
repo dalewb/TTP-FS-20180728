@@ -6,7 +6,8 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      user: props.user
+      user: props.user,
+      error: '',
     }
   }
 
@@ -25,6 +26,15 @@ class SignIn extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.getUser(this.state.email, this.state.password)
+    if (!sessionStorage.user) {
+      this.setState({
+        error: "Invalid Input"
+      })
+    } else {
+      this.setState({
+        error: ""
+      })
+    }
   }
 
   render() {
@@ -38,10 +48,11 @@ class SignIn extends Component {
           </label>
           <label>
             Password:
-            <input type="text" value={this.state.password} onChange={this.handlePasswordChange}/>
+            <input type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
           </label>
           <input type="submit" value="Submit"/>
         </form>
+        {this.state.error && <p>{this.state.error}</p>}
       </div>
     )
   }
