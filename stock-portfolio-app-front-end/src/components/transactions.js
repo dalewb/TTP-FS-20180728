@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/transactions.css';
 
 class Transactions extends Component {
   constructor() {
@@ -27,12 +28,11 @@ renderTransactions = () => {
   console.log('in renderTransactions, transactions are ', this.state.transactions);
   return this.state.transactions.map(trans => {
     return (
-      <div key={trans.id}>
-        <p>Stock: {trans.symbol}</p>
-        <p>Price: {trans.price}</p>
-        <p>Number of Shares: {trans.number_of_shares}</p>
-        <p>Total Value: {trans.price * trans.number_of_shares}</p>
-        <p>Time: {trans.updated_at}</p>
+      <div key={trans.id} className="transaction-info">
+        <p className="transaction-info__element">BUY</p>
+        <p className="transaction-info__element">{trans.symbol}</p>
+        <p className="transaction-info__element">{trans.number_of_shares} shares</p>
+        <p className="transaction-info__element">@ ${parseFloat(trans.price).toFixed(2)}</p>
       </div>
     )
   })
