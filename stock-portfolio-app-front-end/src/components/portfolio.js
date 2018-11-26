@@ -11,6 +11,8 @@ class Portfolio extends Component {
       numberOfShares: 0,
       currentPrice: 0,
       stockSymbol: '',
+      transactions: [],
+      currentValue: '',
       errors: ''
     }
   }
@@ -26,6 +28,76 @@ class Portfolio extends Component {
   //       })
   //     })
   // }
+
+  componentDidMount = () => {
+    this.getTransactions()
+  }
+
+  getTransactions = () => {
+    fetch('http://localhost:3000/api/v1/transactions/')
+      .then(res => res.json())
+      .then(json => {
+        const transactions = json.data.filter(transaction => {
+          return transaction.user_id === JSON.parse(sessionStorage.getItem('user')).id
+        })
+        this.setState({
+          transactions,
+        })
+      })
+  }
+
+  getAllStocks = () => {
+    let stocks = {}
+    this.state.transactions.forEach(transaction => {
+      stocks[transaction.symbol] += transaction.price
+    })
+  }
+
+  renderAllStocks = () => {
+
+  }
+
+  getAllPrices = (symbols, json) => {
+    let currentPrices = {}
+    let currentPortfolio = {}
+    let totalPrice = 0
+    if (symbols.length > 0) {
+      this.state.transactions.forEach(transaction => {
+        totalPrice += json[transaction.symbol].quote.latestPrice
+        if (currentPortfolio[transaction.symbol]) {
+          currentPortfolio[transaction.symbol] = {
+            totalShares: currentPortfolio[transaction.symbol].totalShares + transaction.number_of_shares,
+            price: json[transaction.symbol].quote.latestPrice
+          }
+        } else {
+          currentPortfolio[transaction.symbol] = {
+            totalShares: transaction.number_of_shares,
+            price: json[transaction.symbol].quote.latestPrice
+          }
+        }
+      })
+    }
+    console.log(currentPortfolio)
+    this.setState({
+      currentValue: totalPrice
+    })
+  }
+
+  getCurrentPrice = (symbols) => {
+    fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols.join(',')}&types=quote`)
+      .then(res => res.json())
+      .then(json => this.getAllPrices(symbols, json))
+  }
+
+  getPortfolioValue = () => {
+    // const user = JSON.parse(sessionStorage.getItem('user'))
+    console.log("Transactions are ", this.state.transactions)
+    let symbols = []
+    this.state.transactions.forEach(transaction => {
+      symbols.push(transaction.symbol)
+    })
+    this.getCurrentPrice(symbols)
+  }
 
   getStocks = () => {
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${this.state.searchSymbol}&types=quote`)
@@ -58,7 +130,7 @@ class Portfolio extends Component {
     sessionStorage.setItem("user", JSON.stringify(json.data))
     this.setState({
       user: JSON.parse(sessionStorage.getItem("user"))
-    })
+    }, this.getTransactions())
   }
 
   changeUserAccount = (amount) => {
@@ -84,6 +156,7 @@ class Portfolio extends Component {
       return
     }
     const bodyData = JSON.stringify({
+      symbol: this.state.stockSymbol,
       user_id: this.state.user.id,
       stock_id: data.id,
       price: data.current_price,
@@ -182,6 +255,10 @@ class Portfolio extends Component {
         </form>
         {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
         {console.log(this.state.user)}
+        <button onClick={this.getPortfolioValue}>Get Current Portfolio Value</button>
+        <p>{this.state.currentValue}</p>
+        <p>All Stocks:</p>
+        {}
       </div>
     )
   }

@@ -14,16 +14,27 @@ componentDidMount() {
   fetch('http://localhost:3000/api/v1/transactions/')
     .then(res => res.json())
     .then(json => {
+      const transactions = json.data.filter(transaction => {
+        return transaction.user_id === JSON.parse(sessionStorage.getItem('user')).id
+      })
       this.setState({
-        transactions: json.data,
+        transactions,
       })
     })
 }
 
 renderTransactions = () => {
-  console.log('in renderTransactions');
+  console.log('in renderTransactions, transactions are ', this.state.transactions);
   return this.state.transactions.map(trans => {
-    return <p key={trans.id}>{trans.stock_id}</p>
+    return (
+      <div key={trans.id}>
+        <p>Stock: {trans.symbol}</p>
+        <p>Price: {trans.price}</p>
+        <p>Number of Shares: {trans.number_of_shares}</p>
+        <p>Total Value: {trans.price * trans.number_of_shares}</p>
+        <p>Time: {trans.updated_at}</p>
+      </div>
+    )
   })
 }
 

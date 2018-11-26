@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2018_11_24_204758) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.string "symbol"
     t.decimal "price"
     t.integer "number_of_shares"
     t.integer "user_id"
