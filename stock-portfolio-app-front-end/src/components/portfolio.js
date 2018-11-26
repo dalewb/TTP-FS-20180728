@@ -11,6 +11,7 @@ class Portfolio extends Component {
       numberOfShares: 0,
       currentPrice: 0,
       stockSymbol: '',
+      errors: ''
     }
   }
 
@@ -53,6 +54,13 @@ class Portfolio extends Component {
     })
   }
 
+  updateUser = (json) => {
+    sessionStorage.setItem("user", JSON.stringify(json.data))
+    this.setState({
+      user: JSON.parse(sessionStorage.getItem("user"))
+    })
+  }
+
   changeUserAccount = (amount) => {
     const bodyData = JSON.stringify({
       account: (this.state.user.account - amount)
@@ -66,7 +74,7 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => this.updateUser(json))
   }
 
   createTransaction = (data) => {
@@ -90,10 +98,12 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
+      // .then(json => console.log(json))
       .then(json => this.changeUserAccount(transactionCost))
   }
 
   makePurchase = () => {
+    // debugger
     const bodyData = JSON.stringify({
       symbol: this.state.stockSymbol,
       current_price: this.state.currentPrice
@@ -107,6 +117,7 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
+      // .then(json => console.log(json))
       .then(json => this.createTransaction(json.data))
   }
 
@@ -123,13 +134,23 @@ class Portfolio extends Component {
 
   handleBuyChange = (e) => {
     this.setState({
-      numberOfShares: e.target.value
+      numberOfShares: e.target.value,
+      errors: ''
     })
   }
 
   handleBuySubmit = (e) => {
     e.preventDefault()
-    this.makePurchase()
+    if (this.state.numberOfShares > 0) {
+      this.setState({
+        errors: ''
+      })
+      this.makePurchase()
+    } else {
+      this.setState({
+        errors: "You must buy at least 1 share"
+      })
+    }
   }
 
   render() {
@@ -159,6 +180,7 @@ class Portfolio extends Component {
           </label>
           <input type="submit" value="Submit"/>
         </form>
+        {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
         {console.log(this.state.user)}
       </div>
     )

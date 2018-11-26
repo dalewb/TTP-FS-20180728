@@ -20,7 +20,11 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    render json: {status: 'SUCCESS', message: 'Updated user', data: user}, status: :ok
+    if user.update(user_params)
+      render json: {status: 'SUCCESS', message: 'Updated user', data: user}, status: :ok
+    else
+      render json: {status: 'ERROR', message: 'User not updated', data: user.errors}, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -32,6 +36,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :email, :password)
+    params.permit(:name, :email, :password, :account)
   end
 end

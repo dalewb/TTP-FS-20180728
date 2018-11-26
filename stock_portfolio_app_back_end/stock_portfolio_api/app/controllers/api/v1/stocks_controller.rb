@@ -27,6 +27,6 @@ class Api::V1::StocksController < ApplicationController
   private
 
   def stock_params
-    params.permit(:symbol, :current_price, :user_id)
+    params.permit(:symbol, :current_price)
   end
 end
