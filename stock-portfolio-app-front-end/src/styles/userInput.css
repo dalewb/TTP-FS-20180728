@@ -1,0 +1,59 @@
+.user-form {
+  position: fixed;
+  width: 340px;
+  height: 280px;
+  top: 35%;
+  left: 50%;
+  margin-top: -140px;
+  margin-left: -170px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.user-form__title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.user-form__form {
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.user-form__label {
+  color: #555;
+  display: inline-block;
+  margin-left: 18px;
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.user-form__input {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  outline: none;
+  color: #777;
+  padding-left: 10px;
+  margin: 10px;
+  margin-top: 12px;
+  margin-left: 18px;
+  width: 290px;
+  height: 35px;
+}
+
+.submitButton {
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 2px;
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #acd6ef;
+  border-radius: 30px;
+  border: 1px solid #66add6;
+  cursor: pointer;
+}

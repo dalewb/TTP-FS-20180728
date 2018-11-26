@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/userInput.css';
 
 class Register extends Component {
   constructor(props) {
@@ -69,46 +70,45 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Registration Page</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input
-              name="name"
-              type="text"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              name="email"
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Confirm Password:
-            <input
-              name="confirmPassword"
-              type="password"
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit"/>
+      <div className="user-form">
+        <h3 className="user-form__title">Register</h3>
+        <form onSubmit={this.handleSubmit} className="user-form__form">
+          <label className="user-form__label">Name:</label>
+          <input
+            name="name"
+            type="text"
+            value={this.state.name}
+            onChange={this.handleChange}
+            className="user-form__input"
+          />
+          <label className="user-form__label">Email:</label>
+          <input
+            name="email"
+            type="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+            className="user-form__input"
+          />
+          <label className="user-form__label">Password:</label>
+          <input
+            name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            className="user-form__input"
+          />
+          <label className="user-form__label">Confirm Password:</label>
+          <input
+            name="confirmPassword"
+            type="password"
+            value={this.state.confirmPassword}
+            onChange={this.handleChange}
+            className="user-form__input"
+          />
+        <input
+          type="submit"
+          value="Submit"
+          className="submitButton"/>
         </form>
         {this.state.errors && <p>{this.state.errors}</p>}
       </div>
