@@ -1,25 +1,21 @@
-.transaction-info {
-  display: flex;
-  position: relative;
+.transaction-info__container {
+  display: block;
+}
+
+.transaction-info__container:after {
+  content:'';
+  display: block;
+  margin: 0 ;
+  width: 55%;
   border-bottom: solid black 2px;
 }
 
-.transaction-info__element_1 {
-  width: 15%;
+.transaction-info {
+  display: flex;
   position: relative;
 }
 
-.transaction-info__element_2 {
-  width: 15%;
-  position: relative;
-}
-
-.transaction-info__element_3 {
-  width: 15%;
-  position: relative;
-}
-
-.transaction-info__element_4 {
+.transaction-info__element {
   width: 15%;
   position: relative;
 }

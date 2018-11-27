@@ -110,7 +110,7 @@ class Register extends Component {
           value="Submit"
           className="submitButton"/>
         </form>
-        {this.state.errors && <p>{this.state.errors}</p>}
+        {this.state.errors && <p className="user-form__error-message">{this.state.errors}</p>}
       </div>
     )
   }

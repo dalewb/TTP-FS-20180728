@@ -57,3 +57,8 @@
   border: 1px solid #66add6;
   cursor: pointer;
 }
+
+.user-form__error-message {
+  color: red;
+  text-align: center;
+}

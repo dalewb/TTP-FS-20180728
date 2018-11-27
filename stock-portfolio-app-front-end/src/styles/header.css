@@ -1,8 +1,10 @@
 .content-container {
+  position: fixed;
+  z-index: 1;
   background-color: #acd6ef;
   margin: 0 auto;
   padding: 8px 8px;
-  max-width: 80rem;
+  width: 100%;
   display: flex;
   vertical-align: middle;
 }
