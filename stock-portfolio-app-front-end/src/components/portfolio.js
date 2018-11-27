@@ -276,14 +276,21 @@ class Portfolio extends Component {
     }
   }
 
+  getPortfolioDelta = () => {
+    let renderColor = this.getStockColor(this.state.user.account, this.state.currentValue)
+    let delta = (this.state.currentValue - (5000 - this.state.user.account)).toFixed(2)
+    if (this.state.currentValue)  {
+      return <span style={{color: renderColor}}>${delta}</span>
+    }
+  }
+
   render() {
     return (
       <div>
         <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null}</h2>
-        <h3 className="stock-portfolio__heading">Account: ${this.state.user.account}</h3>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
-            <h3 className="stock-portfilio__title">Create A Transaction</h3>
+            <h3 className="stock-portfolio__heading">Account: ${this.state.user.account}</h3>
             <div>{this.renderStocks()}</div>
             <form onSubmit={this.handleSearchSubmit}>
               <label className="stock-portfolio__label">Search for a company</label>
@@ -293,7 +300,7 @@ class Portfolio extends Component {
                 onChange={this.handleSearchChange}
                 className="stock-portfolio__input"
               />
-            <input type="submit" value="Submit" className="stock-submitButton"/>
+            <input type="submit" value="Search" className="stock-submitButton"/>
             </form>
             <form onSubmit={this.handleBuySubmit} className="stock-portfolio__form">
               <label className="stock-portfolio__label">Number of Shares: </label>
@@ -304,12 +311,12 @@ class Portfolio extends Component {
                   onChange={this.handleBuyChange}
                   className="stock-portfolio__input"
                 />
-              <input type="submit" value="Submit" className="stock-submitButton"/>
+              <input type="submit" value="Buy" className="stock-submitButton"/>
             </form>
             {this.state.errors.length > 0 && <p className="transaction__error-message">{this.state.errors}</p>}
           </div>
           <div className="stock-portfolio__display">
-            <p>All Stocks:</p>
+            <p>Portfolio Delta: {this.getPortfolioDelta()}</p>
             {this.renderAllStocks(this.state.currentPortfolio)}
           </div>
         </div>
