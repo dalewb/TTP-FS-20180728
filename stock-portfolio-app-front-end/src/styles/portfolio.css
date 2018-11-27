@@ -1,4 +1,5 @@
 .stock-portfolio__heading {
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
 }
 
@@ -79,6 +80,7 @@
 
 .stock-portfolio__stocks-element {
   text-align: center;
+  font-weight: bold;
 }
 
 .stock-submitButton {

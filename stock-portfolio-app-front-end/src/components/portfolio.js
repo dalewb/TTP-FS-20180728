@@ -19,18 +19,6 @@ class Portfolio extends Component {
     }
   }
 
-  // This is going to be a fetch to the backend for user's stocks info
-  // componentDidMount() {
-  //   fetch('https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl&types=quote')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       this.setState({
-  //         stocks: data,
-  //       })
-  //     })
-  // }
-
   componentDidMount = () => {
     this.getTransactions()
     setTimeout(() => this.getPortfolioValue(), 100)
@@ -114,7 +102,7 @@ class Portfolio extends Component {
         }
       })
     }
-    console.log(currentPortfolio)
+    // console.log(currentPortfolio)
     this.setState({
       currentValue: totalPrice.toFixed(2),
       currentPortfolio,
@@ -167,7 +155,7 @@ class Portfolio extends Component {
   }
 
   renderStocks = () => {
-    console.log(this.state)
+    // console.log(this.state)
     return Object.entries(this.state.stocks).map(stock => {
       let renderColor = this.getStockColor(stock[1].quote.open, stock[1].quote.latestPrice)
       return (
@@ -282,7 +270,7 @@ class Portfolio extends Component {
   render() {
     return (
       <div>
-        <h3 className="stock-portfolio__heading">Portfolio:  ({this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null})</h3>
+        <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null}</h2>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
             <h3 className="stock-portfilio__title">Create A Transaction</h3>
