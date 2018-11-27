@@ -33,8 +33,13 @@ class Portfolio extends Component {
 
   componentDidMount = () => {
     this.getTransactions()
+    setTimeout(() => this.getPortfolioValue(), 100)
     this.timer = setInterval(() => this.getPortfolioValue(), 5000)
   }
+
+  // componentWillUpdate() {
+  //   this.getPortfolioValue()
+  // }
 
   componentWillUnmount= () => {
     clearInterval(this.timer)
@@ -51,7 +56,7 @@ class Portfolio extends Component {
           transactions,
           numberOfShares: 0,
           searchSymbol: '',
-        })
+        }, this.getPortfolioValue())
       })
   }
 
@@ -73,10 +78,12 @@ class Portfolio extends Component {
         renderColor = "grey"
       }
       return (
-        <div key={stock[0]} className="stock-info">
-          <p className="stock-info__element">{stock[0]}</p>
-          <p className="stock-info__element">{stock[1].totalShares} shares</p>
-          <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+        <div key={stock[0]} className="stock-info__container">
+          <div className="stock-info">
+            <p className="stock-info__element">{stock[0]}</p>
+            <p className="stock-info__element">{stock[1].totalShares} shares</p>
+            <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+          </div>
         </div>
       )
     })
@@ -206,12 +213,10 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
-      // .then(json => console.log(json))
       .then(json => this.changeUserAccount(transactionCost))
   }
 
   makePurchase = () => {
-    // debugger
     const bodyData = JSON.stringify({
       symbol: this.state.stockSymbol,
       current_price: this.state.currentPrice
@@ -225,7 +230,6 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
-      // .then(json => console.log(json))
       .then(json => this.createTransaction(json.data))
   }
 
@@ -264,35 +268,39 @@ class Portfolio extends Component {
   render() {
     return (
       <div>
-        <h3>Portfolio {this.state.currentValue ? <p>{"$" + this.state.currentValue}</p> : null}</h3>
-        {this.renderStocks()}
-        <p>Search for a company</p>
-        <form onSubmit={this.handleSearchSubmit}>
-          <input
-            type="text"
-            value={this.state.searchSymbol}
-            onChange={this.handleSearchChange}
-          />
-          <input type="submit" value="Submit"/>
-        </form>
-        <p>Buy Stock</p>
-        <form onSubmit={this.handleBuySubmit}>
-          <label>
-            Number of Shares:
-            <input
-              type="number"
-              min={0}
-              value={this.state.numberOfShares}
-              onChange={this.handleBuyChange}
-            />
-          </label>
-          <input type="submit" value="Submit"/>
-        </form>
-        {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
-        {console.log(this.state.user)}
-        <button onClick={this.getPortfolioValue}>Get Current Portfolio Value</button>
-        <p>All Stocks:</p>
-        {this.renderAllStocks(this.state.currentPortfolio)}
+        <h3 className="stock-portfolio__heading">Portfolio:  ({this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null})</h3>
+        <div className="stock-portfolio__container">
+          <div className="stock-portfolio__search">
+            <div>{this.renderStocks()}</div>
+            <h3 className="stock-portfilio__title">Transaction</h3>
+            <form onSubmit={this.handleSearchSubmit}>
+              <label className="stock-portfolio__label">Search for a company</label>
+              <input
+                type="text"
+                value={this.state.searchSymbol}
+                onChange={this.handleSearchChange}
+                className="stock-portfolio__input"
+              />
+            <input type="submit" value="Submit" className="stock-submitButton"/>
+            </form>
+            <form onSubmit={this.handleBuySubmit} className="stock-portfolio__form">
+              <label className="stock-portfolio__label">Number of Shares: </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={this.state.numberOfShares}
+                  onChange={this.handleBuyChange}
+                  className="stock-portfolio__input"
+                />
+              <input type="submit" value="Submit" className="stock-submitButton"/>
+            </form>
+            {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
+          </div>
+          <div className="stock-portfolio__display">
+            <p>All Stocks:</p>
+            {this.renderAllStocks(this.state.currentPortfolio)}
+          </div>
+        </div>
       </div>
     )
   }

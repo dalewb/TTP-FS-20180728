@@ -1,8 +1,88 @@
+.stock-portfolio__heading {
+  text-align: center;
+}
+
+.stock-info__container {
+  display: block;
+}
+
+.stock-info__container:after {
+  content:'';
+  display: block;
+  margin: 0 ;
+  width:100%;
+  border: solid black 2px;
+}
+
 .stock-info {
   display: flex;
-  border-bottom: solid black 2px;
+  position: relative;
 }
 
 .stock-info__element {
   padding: 0 5px;
+}
+
+.stock-portfolio__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.stock-portfolio__search {
+  position: relative;
+  right: 10%;
+}
+
+.stock-portfolio__title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.stock-portfolio__form {
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.stock-portfolio__label {
+  color: #555;
+  display: inline-block;
+  margin-left: 18px;
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.stock-portfolio__input {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  outline: none;
+  color: #777;
+  padding-left: 10px;
+  margin: 10px;
+  margin-top: 12px;
+  margin-left: 18px;
+  width: 290px;
+  height: 35px;
+  vertical-align: middle;
+  display: flex;
+}
+
+.stock-submitButton {
+  float: right;
+  margin-right: 20px;
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #acd6ef;
+  border-radius: 30px;
+  border: 1px solid #66add6;
+  cursor: pointer;
+}
+
+.stock-portfolio__display {
+  position: relative;
+  left: 5%;
 }

@@ -28,8 +28,8 @@ renderTransactions = () => {
   console.log('in renderTransactions, transactions are ', this.state.transactions);
   return this.state.transactions.map(trans => {
     return (
-      <div className="transaction-info__container">
-        <div key={trans.id} className="transaction-info">
+      <div key={trans.id} className="transaction-info__container">
+        <div className="transaction-info">
           <p className="transaction-info__element">BUY</p>
           <p className="transaction-info__element">{trans.symbol}</p>
           <p className="transaction-info__element">{trans.number_of_shares} shares</p>
