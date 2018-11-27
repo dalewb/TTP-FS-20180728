@@ -316,7 +316,7 @@ class Portfolio extends Component {
             {this.state.errors.length > 0 && <p className="transaction__error-message">{this.state.errors}</p>}
           </div>
           <div className="stock-portfolio__display">
-            <p>Portfolio Delta: {this.getPortfolioDelta()}</p>
+            <h3>Portfolio Delta: {this.getPortfolioDelta()}</h3>
             {this.renderAllStocks(this.state.currentPortfolio)}
           </div>
         </div>
