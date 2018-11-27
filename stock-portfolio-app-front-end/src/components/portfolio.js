@@ -255,14 +255,18 @@ class Portfolio extends Component {
 
   handleBuySubmit = (e) => {
     e.preventDefault()
-    if (this.state.numberOfShares > 0) {
+    if (this.state.numberOfShares > 0 && this.state.searchSymbol) {
       this.setState({
         errors: '',
       })
       this.makePurchase()
-    } else {
+    } else if (this.state.numberOfShares < 1) {
       this.setState({
         errors: "You must buy at least 1 share"
+      })
+    } else if (!this.state.searchSymbol) {
+      this.setState({
+        errors: "Please search for a company"
       })
     }
   }

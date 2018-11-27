@@ -1,5 +1,4 @@
 .stock-portfolio__heading {
-  font-family: 'Montserrat', sans-serif;
   text-align: center;
 }
 
@@ -36,7 +35,6 @@
 }
 
 .stock-portfolio__title {
-  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   display: flex;
   margin-left: 10px;
@@ -56,7 +54,6 @@
 }
 
 .stock-portfolio__input {
-  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   outline: none;
   color: #777;
