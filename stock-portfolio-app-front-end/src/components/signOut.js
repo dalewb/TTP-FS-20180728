@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/signOut.css'
 
 class SignOut extends Component {
 
@@ -10,7 +11,7 @@ class SignOut extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.logOutLogic}>Log Out</button>
+        <button onClick={this.logOutLogic} className="log-out__button">Log Out</button>
       </div>
     )
   }

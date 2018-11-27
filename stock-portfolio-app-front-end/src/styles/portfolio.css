@@ -37,7 +37,8 @@
 .stock-portfolio__title {
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  text-align: center;
+  display: flex;
+  margin-left: 10px;
 }
 
 .stock-portfolio__form {

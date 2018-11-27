@@ -37,10 +37,6 @@ class Portfolio extends Component {
     this.timer = setInterval(() => this.getPortfolioValue(), 5000)
   }
 
-  // componentWillUpdate() {
-  //   this.getPortfolioValue()
-  // }
-
   componentWillUnmount= () => {
     clearInterval(this.timer)
   }
@@ -94,6 +90,9 @@ class Portfolio extends Component {
     let totalPrice = 0
     if (symbols.length > 0) {
       this.state.transactions.forEach(transaction => {
+        // console.log("json is", json)
+        // console.log("transaction is", transaction);
+        // console.log("--------------------");
         totalPrice += (json[transaction.symbol].quote.latestPrice * transaction.number_of_shares)
         if (currentPortfolio[transaction.symbol]) {
           currentPortfolio[transaction.symbol] = {
@@ -118,19 +117,27 @@ class Portfolio extends Component {
   }
 
   getCurrentPrice = (symbols) => {
+    // console.log("Symbols are ", symbols);
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols.join(',')}&types=quote`)
       .then(res => res.json())
       .then(json => this.getAllPrices(symbols, json))
   }
 
-  getPortfolioValue = () => {
-    // const user = JSON.parse(sessionStorage.getItem('user'))
-    console.log("Transactions are ", this.state.transactions)
+  getSymbols = () => {
+    // console.log("getSymbols, this.state is ", this.state)
     let symbols = []
     this.state.transactions.forEach(transaction => {
       symbols.push(transaction.symbol)
     })
-    this.getCurrentPrice(symbols)
+    if (this.state.stockSymbol) {
+      symbols.push(this.state.stockSymbol)
+    }
+    return symbols
+  }
+
+  getPortfolioValue = () => {
+    // console.log("Transactions are ", this.state.transactions)
+    this.getCurrentPrice(this.getSymbols())
   }
 
   getStocks = () => {
@@ -194,6 +201,7 @@ class Portfolio extends Component {
   createTransaction = (data) => {
     const transactionCost = data.current_price * this.state.numberOfShares
     if (this.state.user.account < transactionCost) {
+      console.log(this.state.user)
       alert("You do not have enough money in your account for this transaction")
       return
     }
@@ -271,8 +279,8 @@ class Portfolio extends Component {
         <h3 className="stock-portfolio__heading">Portfolio:  ({this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null})</h3>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
+            <h3 className="stock-portfilio__title">Create A Transaction</h3>
             <div>{this.renderStocks()}</div>
-            <h3 className="stock-portfilio__title">Transaction</h3>
             <form onSubmit={this.handleSearchSubmit}>
               <label className="stock-portfolio__label">Search for a company</label>
               <input

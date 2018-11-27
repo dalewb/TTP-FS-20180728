@@ -1,0 +1,18 @@
+.log-out__button {
+  float: right;
+  position: relative;
+  left: -45%;
+  text-align: center;
+  margin-right: 20px;
+  margin-top: 50px;
+  margin-bottom: 2px;
+  width: 160px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #acd6ef;
+  border-radius: 30px;
+  border: 1px solid #66add6;
+  cursor: pointer;
+}

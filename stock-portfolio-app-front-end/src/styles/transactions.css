@@ -19,3 +19,8 @@
   width: 15%;
   position: relative;
 }
+
+.transaction__error-message {
+  color: red;
+  text-align: center;
+}
