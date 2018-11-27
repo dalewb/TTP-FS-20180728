@@ -51,11 +51,11 @@ class Portfolio extends Component {
     })
   }
 
-  getStockColor = (open, current) => {
+  getStockColor = (first, second) => {
     let renderColor = "black"
-    if (open < current) {
+    if (first < second) {
       renderColor = "green"
-    } else if (open > current) {
+    } else if (first > second) {
       renderColor = "red"
     } else {
       renderColor = "grey"
@@ -277,7 +277,7 @@ class Portfolio extends Component {
   }
 
   getPortfolioDelta = () => {
-    let renderColor = this.getStockColor(this.state.user.account, this.state.currentValue)
+    let renderColor = this.getStockColor((5000 - this.state.user.account), this.state.currentValue)
     let delta = (this.state.currentValue - (5000 - this.state.user.account)).toFixed(2)
     if (this.state.currentValue)  {
       return <span style={{color: renderColor}}>${delta}</span>
