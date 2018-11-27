@@ -66,6 +66,10 @@ class Portfolio extends Component {
   renderAllStocks = (currentPortfolio) => {
     return Object.entries(currentPortfolio).map(stock => {
       let renderColor = this.getStockColor(stock[1].openPrice, stock[1].price)
+      console.log("Open price: ", stock[1].openPrice)
+      console.log("Price: ", stock[1].price)
+      console.log("Render color: ", renderColor)
+      console.log("---------------");
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
@@ -94,7 +98,7 @@ class Portfolio extends Component {
           currentPortfolio[transaction.symbol] = {
             totalShares: transaction.number_of_shares,
             price: json[transaction.symbol].quote.latestPrice,
-            openPrice: json[transaction.symbol].quote.latestPrice.open
+            openPrice: json[transaction.symbol].quote.open
           }
         }
       })
@@ -276,6 +280,7 @@ class Portfolio extends Component {
     return (
       <div>
         <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null}</h2>
+        <h3 className="stock-portfolio__heading">Account: ${this.state.user.account}</h3>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
             <h3 className="stock-portfilio__title">Create A Transaction</h3>
