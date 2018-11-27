@@ -25,7 +25,7 @@ class App extends Component {
 
   setUser = (userData, email, password) => {
     const returnUser = userData.filter(user => {
-      return user.email === email && user.password === password
+      return user.email.toLowerCase() === email.toLowerCase() && user.password === password
     })
     if (returnUser.length === 1) {
       sessionStorage.setItem("user", JSON.stringify(returnUser[0]))
