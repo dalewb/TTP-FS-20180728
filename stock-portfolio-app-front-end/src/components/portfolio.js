@@ -83,9 +83,6 @@ class Portfolio extends Component {
     let totalPrice = 0
     if (symbols.length > 0) {
       this.state.transactions.forEach(transaction => {
-        // console.log("json is", json)
-        // console.log("transaction is", transaction);
-        // console.log("--------------------");
         totalPrice += (json[transaction.symbol].quote.latestPrice * transaction.number_of_shares)
         if (currentPortfolio[transaction.symbol]) {
           currentPortfolio[transaction.symbol] = {
@@ -102,7 +99,6 @@ class Portfolio extends Component {
         }
       })
     }
-    // console.log(currentPortfolio)
     this.setState({
       currentValue: totalPrice.toFixed(2),
       currentPortfolio,
@@ -110,14 +106,12 @@ class Portfolio extends Component {
   }
 
   getCurrentPrice = (symbols) => {
-    // console.log("Symbols are ", symbols);
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols.join(',')}&types=quote`)
       .then(res => res.json())
       .then(json => this.getAllPrices(symbols, json))
   }
 
   getSymbols = () => {
-    // console.log("getSymbols, this.state is ", this.state)
     let symbols = []
     this.state.transactions.forEach(transaction => {
       symbols.push(transaction.symbol)
@@ -129,7 +123,6 @@ class Portfolio extends Component {
   }
 
   getPortfolioValue = () => {
-    // console.log("Transactions are ", this.state.transactions)
     this.getCurrentPrice(this.getSymbols())
   }
 
@@ -155,7 +148,6 @@ class Portfolio extends Component {
   }
 
   renderStocks = () => {
-    // console.log(this.state)
     return Object.entries(this.state.stocks).map(stock => {
       let renderColor = this.getStockColor(stock[1].quote.open, stock[1].quote.latestPrice)
       return (
@@ -243,7 +235,16 @@ class Portfolio extends Component {
 
   handleSearchSubmit = (e) => {
     e.preventDefault()
-    this.getStocks()
+    if (this.state.searchSymbol) {
+      this.setState({
+        errors: ''
+      })
+      this.getStocks()
+    } else {
+      this.setState({
+        errors: "Please enter a ticker symbol"
+      })
+    }
   }
 
   handleBuyChange = (e) => {
