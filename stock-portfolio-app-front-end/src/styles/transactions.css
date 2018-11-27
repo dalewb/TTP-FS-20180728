@@ -1,8 +1,25 @@
 .transaction-info {
   display: flex;
+  position: relative;
   border-bottom: solid black 2px;
 }
 
-.transaction-info__element {
-  padding: 0 5px;
+.transaction-info__element_1 {
+  width: 15%;
+  position: relative;
+}
+
+.transaction-info__element_2 {
+  width: 15%;
+  position: relative;
+}
+
+.transaction-info__element_3 {
+  width: 15%;
+  position: relative;
+}
+
+.transaction-info__element_4 {
+  width: 15%;
+  position: relative;
 }

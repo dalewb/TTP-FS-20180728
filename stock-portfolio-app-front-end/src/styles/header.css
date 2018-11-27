@@ -1,0 +1,27 @@
+.content-container {
+  background-color: #acd6ef;
+  margin: 0 auto;
+  padding: 8px 8px;
+  max-width: 80rem;
+  display: flex;
+  vertical-align: middle;
+}
+
+.header {
+  background: blue;
+}
+
+.header__content {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.header__title {
+  color: black;
+  text-decoration: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 6px;
+}
