@@ -51,6 +51,10 @@ class Portfolio extends Component {
     })
   }
 
+  numberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   getStockColor = (first, second) => {
     let renderColor = "black"
     if (first < second) {
@@ -287,10 +291,10 @@ class Portfolio extends Component {
   render() {
     return (
       <div>
-        <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null}</h2>
+        <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.numberWithCommas(this.state.currentValue)}</span> : null}</h2>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
-            <h3 className="stock-portfolio__heading">Account: ${parseInt(this.state.user.account).toFixed(2)}</h3>
+            <h3 className="stock-portfolio__heading">Account: ${this.numberWithCommas(parseInt(this.state.user.account).toFixed(2))}</h3>
             <div>{this.renderStocks()}</div>
             <form onSubmit={this.handleSearchSubmit}>
               <label className="stock-portfolio__label">Search for a company</label>
