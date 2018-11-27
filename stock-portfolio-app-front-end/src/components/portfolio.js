@@ -73,7 +73,7 @@ class Portfolio extends Component {
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
-            <p className="stock-info__element">{stock[0]}</p>
+            <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
             <p className="stock-info__element">{stock[1].totalShares} shares</p>
             <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
           </div>
@@ -159,7 +159,7 @@ class Portfolio extends Component {
           <p className="stock-portfolio__stocks-element">Symbol: {stock[1].quote.symbol}</p>
           <p className="stock-portfolio__stocks-element">Open Price: ${stock[1].quote.open}</p>
           <p className="stock-portfolio__stocks-element">Current Price: ${stock[1].quote.latestPrice}</p>
-          <p className="stock-portfolio__stocks-element" style={{color: renderColor}}>Price Difference: ${Math.round((stock[1].quote.latestPrice - stock[1].quote.open) * 100) / 100}</p>
+          <p className="stock-portfolio__stocks-element" style={{color: renderColor}}>Price Difference: ${(stock[1].quote.latestPrice - stock[1].quote.open).toFixed(2)}</p>
         </div>
       )
     })
@@ -260,7 +260,7 @@ class Portfolio extends Component {
 
   handleBuySubmit = (e) => {
     e.preventDefault()
-    if (this.state.numberOfShares > 0 && this.state.searchSymbol) {
+    if (this.state.numberOfShares > 0 && this.state.stockSymbol) {
       this.setState({
         errors: '',
       })
@@ -290,7 +290,7 @@ class Portfolio extends Component {
         <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.state.currentValue}</span> : null}</h2>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
-            <h3 className="stock-portfolio__heading">Account: ${this.state.user.account}</h3>
+            <h3 className="stock-portfolio__heading">Account: ${parseInt(this.state.user.account).toFixed(2)}</h3>
             <div>{this.renderStocks()}</div>
             <form onSubmit={this.handleSearchSubmit}>
               <label className="stock-portfolio__label">Search for a company</label>

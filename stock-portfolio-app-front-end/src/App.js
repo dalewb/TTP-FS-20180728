@@ -33,7 +33,7 @@ class App extends Component {
         loggedIn: true,
       })
     } else {
-      alert("Incorrect Email or Password")
+      alert("Incorrect Email/Password or Unregistered Email")
     }
   }
 
