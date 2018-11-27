@@ -70,10 +70,6 @@ class Portfolio extends Component {
   renderAllStocks = (currentPortfolio) => {
     return Object.entries(currentPortfolio).map(stock => {
       let renderColor = this.getStockColor(stock[1].openPrice, stock[1].price)
-      console.log("Open price: ", stock[1].openPrice)
-      console.log("Price: ", stock[1].price)
-      console.log("Render color: ", renderColor)
-      console.log("---------------");
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
@@ -138,9 +134,7 @@ class Portfolio extends Component {
     fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${this.state.searchSymbol}&types=quote`)
       .then(res => res.json())
       .then(data => {
-        console.log('Data in fetch is ',data)
         if (Object.keys(data).length > 0) {
-          console.log("valid")
           this.setState({
             stocks: data,
             stockSymbol: Object.keys(data)[0],
@@ -195,8 +189,9 @@ class Portfolio extends Component {
   createTransaction = (data) => {
     const transactionCost = data.current_price * this.state.numberOfShares
     if (this.state.user.account < transactionCost) {
-      console.log(this.state.user)
-      alert("You do not have enough money in your account for this transaction")
+      this.setState({
+        errors: "Insufficient Funds"
+      })
       return
     }
     const bodyData = JSON.stringify({
@@ -264,7 +259,6 @@ class Portfolio extends Component {
 
   handleBuySubmit = (e) => {
     e.preventDefault()
-    console.log("State in buySubmit is ",this.state);
     if (this.state.searchSymbol.toLowerCase() !== this.state.stockSymbol.toLowerCase()) {
       this.setState({
         errors: "Please search before making a purchase"

@@ -26,7 +26,11 @@ class SignIn extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.getUser(this.state.email, this.state.password)
+    if (!this.props.getUser(this.state.email, this.state.password)) {
+      this.setState({
+        error: "Incorrect Email/Password or Unregistered Email"
+      })
+    }
   }
 
   render() {
@@ -53,6 +57,7 @@ class SignIn extends Component {
             type="submit"
             value="Submit"/>
         </form>
+        {this.state.error && <p className="user-form__error-message">{this.state.error}</p>}
       </div>
     )
   }

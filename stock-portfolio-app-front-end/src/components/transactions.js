@@ -25,7 +25,6 @@ componentDidMount() {
 }
 
 renderTransactions = () => {
-  console.log('in renderTransactions, transactions are ', this.state.transactions);
   return this.state.transactions.map(trans => {
     return (
       <div key={trans.id} className="transaction-info__container">

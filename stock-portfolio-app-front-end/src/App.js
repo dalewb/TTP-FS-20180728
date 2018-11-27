@@ -32,8 +32,6 @@ class App extends Component {
       this.setState({
         loggedIn: true,
       })
-    } else {
-      alert("Incorrect Email/Password or Unregistered Email")
     }
   }
 
@@ -52,7 +50,6 @@ class App extends Component {
           logOut={this.logOut}
           logIn={this.logIn}
           loggedIn={this.state.loggedIn}
-          signInError={this.state.signInError}
         />
       </div>
     );
