@@ -63,16 +63,21 @@ class Portfolio extends Component {
     })
   }
 
+  getStockColor = (open, current) => {
+    let renderColor = "black"
+    if (open < current) {
+      renderColor = "green"
+    } else if (open > current) {
+      renderColor = "red"
+    } else {
+      renderColor = "grey"
+    }
+    return renderColor
+  }
+
   renderAllStocks = (currentPortfolio) => {
     return Object.entries(currentPortfolio).map(stock => {
-      let renderColor = "black"
-      if (stock[1].openPrice < stock[1].price) {
-        renderColor = "green"
-      } else if (stock[1].openPrice > stock[1].price) {
-        renderColor = "red"
-      } else {
-        renderColor = "grey"
-      }
+      let renderColor = this.getStockColor(stock[1].openPrice, stock[1].price)
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
@@ -164,12 +169,13 @@ class Portfolio extends Component {
   renderStocks = () => {
     console.log(this.state)
     return Object.entries(this.state.stocks).map(stock => {
+      let renderColor = this.getStockColor(stock[1].quote.open, stock[1].quote.latestPrice)
       return (
-        <div key={stock[1].quote.symbol}>
-          <p>Symbol: {stock[1].quote.symbol}</p>
-          <p>Open Price: ${stock[1].quote.open}</p>
-          <p>Current Price: ${stock[1].quote.latestPrice}</p>
-          <p>Price Difference: ${Math.round((stock[1].quote.latestPrice - stock[1].quote.open) * 100) / 100}</p>
+        <div key={stock[1].quote.symbol} className="stock-portfolio__stocks">
+          <p className="stock-portfolio__stocks-element">Symbol: {stock[1].quote.symbol}</p>
+          <p className="stock-portfolio__stocks-element">Open Price: ${stock[1].quote.open}</p>
+          <p className="stock-portfolio__stocks-element">Current Price: ${stock[1].quote.latestPrice}</p>
+          <p className="stock-portfolio__stocks-element" style={{color: renderColor}}>Price Difference: ${Math.round((stock[1].quote.latestPrice - stock[1].quote.open) * 100) / 100}</p>
         </div>
       )
     })
@@ -302,7 +308,7 @@ class Portfolio extends Component {
                 />
               <input type="submit" value="Submit" className="stock-submitButton"/>
             </form>
-            {this.state.errors.length > 0 && <p>{this.state.errors}</p>}
+            {this.state.errors.length > 0 && <p className="transaction__error-message">{this.state.errors}</p>}
           </div>
           <div className="stock-portfolio__display">
             <p>All Stocks:</p>
