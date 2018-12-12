@@ -6,8 +6,18 @@ class StockDropDown extends Component {
   }
 
   render() {
+    let stockNames = this.props.stockNames
+    let stockOptions = stocks.map((stock) => {
+      return (
+        <option key=stock.name>{stock.name}</option>
+      )
+    })
     return (
-      
+      <div>
+        <select>
+          {stockOptions}
+        </select>
+      </div>
     )
   }
 
