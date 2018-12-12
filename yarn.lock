@@ -2,6 +2,19 @@
 # yarn lockfile v1
 
 
+classnames@^2.2.3:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
+
+cors@^2.8.5:
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
+  integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
+  dependencies:
+    object-assign "^4"
+    vary "^1"
+
 node-bin-setup@^1.0.0:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/node-bin-setup/-/node-bin-setup-1.0.6.tgz#4b5c9bb937ece702d7069b36ca78af4684677528"
@@ -12,3 +25,20 @@ node@10.13.0:
   integrity sha512-IlfBQRq888Mp0nSMgYH6ONZLxD0ybKEOtD4WdiStebbQXg5EWBSs5RaaoYq4xBOW3g7TX8iqNz+gTHimC1fTJQ==
   dependencies:
     node-bin-setup "^1.0.0"
+
+object-assign@^4:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
+  integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
+
+react-dropdown@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/react-dropdown/-/react-dropdown-1.6.2.tgz#13ace229f1749f942cd0ec7eb221cb1a22788db7"
+  integrity sha512-6RpKAFEVZLr53y91qnxC9rAWcoDvq8A9YstmeSV2AQgJxNFRcsreN1mJNRUctSvIwm0Hph07ouMvDc2GvfQBsA==
+  dependencies:
+    classnames "^2.2.3"
+
+vary@^1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
+  integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=

@@ -15,9 +15,14 @@ class Portfolio extends Component {
       transactions: [],
       currentValue: '',
       currentPortfolio: {},
-      errors: ''
+      errors: '',
+      metricValue: '',
+      metricValueReturn: '',
     }
   }
+
+  // http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=tesla&lang=english
+  // API for stock ticker company name conversion
 
   componentDidMount = () => {
     this.getTransactions()
@@ -76,6 +81,7 @@ class Portfolio extends Component {
             <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
             <p className="stock-info__element">{stock[1].totalShares} shares</p>
             <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+            {this.state.metricValueReturn === "toggle_stock_prices" ? <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price).toFixed(2)}</p> : null}
           </div>
         </div>
       )
@@ -188,7 +194,7 @@ class Portfolio extends Component {
 
   createTransaction = (data) => {
     const transactionCost = data.current_price * this.state.numberOfShares
-    if (this.state.user.account < transactionCost) {
+    if (this.state.user.account <= transactionCost) {
       this.setState({
         errors: "Insufficient Funds"
       })
@@ -228,6 +234,51 @@ class Portfolio extends Component {
     })
       .then(res => res.json())
       .then(json => this.createTransaction(json.data))
+  }
+
+  renderMetricsForm = () => {
+    return (
+      <div>
+        <form className="stock-portfolio__form" onSubmit={this.handleMetricFormSubmit}>
+          <select onChange={this.handleMetricFormChange}>
+            <option value="amt_spent">Amount Spent</option>
+            <option value="portfolio_value">Portfolio Value</option>
+            <option value="toggle_stock_prices">Stock Prices</option>
+          </select>
+          <input type="submit" value="Search" className="stock-submitButton"/>
+        </form>
+        {typeof parseInt(this.state.metricValueReturn) === "number" ? <p>{this.state.metricValueReturn}</p> : null}
+      </div>
+    )
+  }
+
+  handleMetricFormChange = (e) => {
+    this.setState({
+      metricValue: e.target.value
+    })
+  }
+
+  handleMetricFormSubmit = (e) => {
+    e.preventDefault()
+    let value = ''
+    switch(this.state.metricValue) {
+      case 'amt_spent':
+        value = (5000 - this.state.user.account).toFixed(2)
+        console.log(value);
+        break
+      case 'portfolio_value':
+        value = this.numberWithCommas(this.state.currentValue)
+        console.log(value)
+        break
+      case 'toggle_stock_prices':
+        value = "toggle_stock_prices"
+        break
+      default:
+        value = ''
+    }
+    this.setState({
+      metricValueReturn: value
+    })
   }
 
   handleSearchChange = (e) => {
@@ -291,9 +342,10 @@ class Portfolio extends Component {
     return (
       <div>
         <h2 className="stock-portfolio__heading">Portfolio:  {this.state.currentValue ? <span>{"$" + this.numberWithCommas(this.state.currentValue)}</span> : null}</h2>
+        <h2 className="stock-portfolio__heading">Amount Spent:  {this.state.currentValue ? <span>{"$" + this.numberWithCommas((5000 - this.state.user.account).toFixed(2))}</span> : null}</h2>
         <div className="stock-portfolio__container">
           <div className="stock-portfolio__search">
-            <h3 className="stock-portfolio__heading">Account: ${this.numberWithCommas(parseInt(this.state.user.account).toFixed(2))}</h3>
+            <h3 className="stock-portfolio__heading">Account: ${this.numberWithCommas(parseFloat(this.state.user.account).toFixed(2))}</h3>
             <div>{this.renderStocks()}</div>
             <form onSubmit={this.handleSearchSubmit}>
               <label className="stock-portfolio__label">Search for a company</label>
@@ -317,6 +369,8 @@ class Portfolio extends Component {
               <input type="submit" value="Buy" className="stock-submitButton"/>
             </form>
             {this.state.errors.length > 0 && <p className="transaction__error-message">{this.state.errors}</p>}
+            <br /><br />
+            {this.renderMetricsForm()}
           </div>
           <div className="stock-portfolio__display">
             <h3>Portfolio Delta: {this.getPortfolioDelta()}</h3>

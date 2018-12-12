@@ -10,7 +10,6 @@ class Transactions extends Component {
     }
   }
 
-// This is going to be a fetch to the backend for user's stocks info
 componentDidMount() {
   fetch('http://localhost:3000/api/v1/transactions/')
     .then(res => res.json())
