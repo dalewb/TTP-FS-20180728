@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import StockDropDown from '../components/stockDropDown'
 import '../styles/portfolio.css';
 
 class Portfolio extends Component {
@@ -18,7 +19,7 @@ class Portfolio extends Component {
       errors: '',
       metricValue: '',
       metricValueReturn: '',
-      stockDropDownData: [],
+      stockDropDownData: {},
     }
   }
 
@@ -253,6 +254,12 @@ class Portfolio extends Component {
     )
   }
 
+  renderStockDropDown = () => {
+    return (
+      <StockDropDown stockData={this.state.stockDropDownData}/>
+    )
+  }
+
   handleMetricFormChange = (e) => {
     this.setState({
       metricValue: e.target.value
@@ -298,9 +305,11 @@ class Portfolio extends Component {
       .then(res => res.json())
       .then(data => {
         console.log(data.ResultSet.Result)
-        stocks = data.ResultSet.Result.map(stock => {
-          return stock.name
+        let stocks = {}
+        data.ResultSet.Result.forEach(stock => {
+          stocks[stock.name] = stock.symbol
         })
+        console.log(stocks);
         this.setState({
           stockDropDownData: stocks
         })
@@ -377,6 +386,7 @@ class Portfolio extends Component {
               />
             <input type="submit" value="Search" className="stock-submitButton"/>
             </form>
+            {this.renderStockDropDown()}
             <form onSubmit={this.handleBuySubmit} className="stock-portfolio__form">
               <label className="stock-portfolio__label">Number of Shares: </label>
                 <input

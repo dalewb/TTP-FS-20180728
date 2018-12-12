@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
+import '../styles/dropdown.css';
 
 class StockDropDown extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
   }
 
   render() {
-    let stockNames = this.props.stockNames
-    let stockOptions = stocks.map((stock) => {
+    let stockData = this.props.stockData
+    let stockOptions = Object.keys(stockData).map((stockName) => {
       return (
-        <option key=stock.name>{stock.name}</option>
+        <option key={stockName}>{stockName}: {stockData[stockName]}</option>
       )
     })
     return (
-      <div>
+      <div className="dropdown">
         <select>
           {stockOptions}
         </select>
@@ -23,4 +24,4 @@ class StockDropDown extends Component {
 
 }
 
-export default StockDropDown
+export default StockDropDown;
