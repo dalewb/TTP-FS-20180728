@@ -18,6 +18,7 @@ class Portfolio extends Component {
       errors: '',
       metricValue: '',
       metricValueReturn: '',
+      stockDropDownData: [],
     }
   }
 
@@ -285,6 +286,25 @@ class Portfolio extends Component {
     this.setState({
       searchSymbol: e.target.value
     })
+
+    let stocks = []
+    fetch(`https://cors-anywhere.herokuapp.com/http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=${e.target.value}&lang=english`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+        // 'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.ResultSet.Result)
+        stocks = data.ResultSet.Result.map(stock => {
+          return stock.name
+        })
+        this.setState({
+          stockDropDownData: stocks
+        })
+      })
   }
 
   handleSearchSubmit = (e) => {
