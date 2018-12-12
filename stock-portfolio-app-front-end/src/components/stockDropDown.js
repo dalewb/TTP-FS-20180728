@@ -11,11 +11,17 @@ class StockDropDown extends Component {
       )
     })
     return (
-      <div className="dropdown">
-        <select className="dropdown__select">
+      <form
+        className="dropdown"
+        onSubmit={this.props.onSubmit}
+      >
+        <select
+          className="dropdown__select"
+          onChange={this.props.onChange}
+        >
           {stockOptions}
         </select>
-      </div>
+      </form>
     )
   }
 

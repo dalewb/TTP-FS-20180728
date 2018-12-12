@@ -256,8 +256,25 @@ class Portfolio extends Component {
 
   renderStockDropDown = () => {
     return (
-      <StockDropDown stockData={this.state.stockDropDownData}/>
+      <StockDropDown
+        stockData={this.state.stockDropDownData}
+        onChange={this.handleDropDownChange}
+        onSubmit={this.handleDropDownSubmit}
+      />
     )
+  }
+
+  handleDropDownChange = (stock) => {
+    this.setState({
+      searchSymbol: stock.currentTarget.value.split(':')[1]
+    })
+  }
+
+  handleDropDownsubmit = (stock) => {
+    debugger
+    this.setState({
+      searchSymbol: stock.symbol
+    })
   }
 
   handleMetricFormChange = (e) => {
