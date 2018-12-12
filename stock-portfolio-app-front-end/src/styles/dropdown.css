@@ -1,0 +1,25 @@
+.dropdown {
+  position: relative;
+  right: 0%;
+  font-size: 12px;
+  outline: none;
+  color: #777;
+}
+
+.dropdown__select {
+  padding-left: 10px;
+  margin: 10px;
+  margin-top: 12px;
+  margin-left: 18px;
+  width: 290px;
+  height: 35px;
+  vertical-align: middle;
+  display: flex;
+}
+
+.dropdown__option {
+  font-size: 12px;
+  outline: none;
+  color: #777;
+  font-family: montserrat;
+}

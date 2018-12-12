@@ -294,7 +294,6 @@ class Portfolio extends Component {
       searchSymbol: e.target.value
     })
 
-    let stocks = []
     fetch(`https://cors-anywhere.herokuapp.com/http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=${e.target.value}&lang=english`, {
       headers: {
         "Content-Type": "application/json",
