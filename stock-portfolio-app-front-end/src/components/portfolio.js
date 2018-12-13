@@ -268,6 +268,12 @@ class Portfolio extends Component {
   handleStockSell = (e) => {
     console.log("e is ", e)
     console.log("transactions are ", this.state.transactions);
+    console.log("user is ", this.state.user);
+    // delete transaction
+    // change user account
+    fetch('http://localhost:3000/api/v1/transactions/')
+      .then(res => res.json())
+      .then(json => console.log("Backend transactions are ", json.data))
   }
 
   handleDropDownChange = (stock) => {
