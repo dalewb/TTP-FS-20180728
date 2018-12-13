@@ -13,7 +13,6 @@ class StockDropDown extends Component {
     return (
       <form
         className="dropdown"
-        onSubmit={this.props.onSubmit}
       >
         <select
           className="dropdown__select"
