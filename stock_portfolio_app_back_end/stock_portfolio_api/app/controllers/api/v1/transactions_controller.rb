@@ -18,9 +18,15 @@ class Api::V1::TransactionsController < ApplicationController
     end
   end
 
+  def destroy
+    transaction = Transaction.find(params[:id])
+    transaction.destroy
+    render json: {status: 'SUCCESS', message: 'Deleted transaction', data: transaction}, status: :ok
+  end
+
   private
 
   def transaction_params
-    params.permit(:symbol, :price, :number_of_shares, :user_id, :stock_id)
+    params.permit(:symbol, :price, :number_of_shares, :transaction_id, :stock_id)
   end
 end
