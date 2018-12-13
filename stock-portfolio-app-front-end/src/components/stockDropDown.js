@@ -7,7 +7,7 @@ class StockDropDown extends Component {
     let stockData = this.props.stockData
     let stockOptions = Object.keys(stockData).map((stockName) => {
       return (
-        <option key={stockName} className="dropdown__option">{stockName}: {stockData[stockName]}</option>
+        <option key={stockName} className="dropdown__option">{stockName}: {stockData[stockName].split(".")[0]}</option>
       )
     })
     return (

@@ -259,7 +259,6 @@ class Portfolio extends Component {
       <StockDropDown
         stockData={this.state.stockDropDownData}
         onChange={this.handleDropDownChange}
-        onSubmit={this.handleDropDownSubmit}
       />
     )
   }
@@ -267,13 +266,6 @@ class Portfolio extends Component {
   handleDropDownChange = (stock) => {
     this.setState({
       searchSymbol: stock.currentTarget.value.split(':')[1]
-    })
-  }
-
-  handleDropDownsubmit = (stock) => {
-    debugger
-    this.setState({
-      searchSymbol: stock.symbol
     })
   }
 
