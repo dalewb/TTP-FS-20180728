@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import '../styles/portfolio.css';
+import '../styles/sellStocks.css';
 
 class SellStocks extends Component {
   state = {
-    renderNumOfShares: false
+    renderModal: false
   }
 
   getNumOfShares = () => {
     this.setState({
-      renderNumOfShares: true
+      renderModal: true
     })
   }
 
@@ -19,15 +19,10 @@ class SellStocks extends Component {
       .then(json => console.log("Backend transactions are ", json.data))
   }
 
-  renderNumOfSharesInput = () => {
-    console.log("Rendering input");
-    return (
-      <form>
-        <input
-          type="number"
-        />
-      </form>
-    )
+  closeModal = () => {
+    this.setState({
+      renderModal: false
+    })
   }
 
   render() {
@@ -35,11 +30,26 @@ class SellStocks extends Component {
       <div>
         <button
           onClick={() => this.getNumOfShares(this.props.stock)}
-          className="stock-submitButton"
+          className="sell-button"
         >
           Sell
         </button>
-        {this.state.renderNumShares && this.renderNumOfSharesInput()}
+        <Modal
+          isOpen={this.state.renderModal}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        >
+          <h2>Hello</h2>
+          <button onClick={this.closeModal}>close</button>
+          <div>I am a modal</div>
+          <form>
+            <input />
+            <button>tab navigation</button>
+            <button>stays</button>
+            <button>inside</button>
+            <button>the modal</button>
+          </form>
+        </Modal>
       </div>
     )
   }

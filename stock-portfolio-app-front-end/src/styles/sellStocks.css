@@ -1,0 +1,13 @@
+.sell-button {
+  float: right;
+  margin-right: 20px;
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #acd6ef;
+  border-radius: 30px;
+  border: 1px solid #66add6;
+  cursor: pointer;
+}
