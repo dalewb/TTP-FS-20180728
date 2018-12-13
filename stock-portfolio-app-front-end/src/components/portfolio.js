@@ -80,6 +80,7 @@ class Portfolio extends Component {
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
+            <button onClick={() => this.handleStockSell(stock)} className="stock-submitButton" value={stock}>Sell</button>
             <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
             <p className="stock-info__element">{stock[1].totalShares} shares</p>
             <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
@@ -259,8 +260,14 @@ class Portfolio extends Component {
       <StockDropDown
         stockData={this.state.stockDropDownData}
         onChange={this.handleDropDownChange}
+        onSubmit={this.handleDropDownSubmit}
       />
     )
+  }
+
+  handleStockSell = (e) => {
+    console.log("e is ", e)
+    console.log("transactions are ", this.state.transactions);
   }
 
   handleDropDownChange = (stock) => {
@@ -268,6 +275,12 @@ class Portfolio extends Component {
       searchSymbol: stock.currentTarget.value.split(':')[1]
     })
   }
+
+  // handleDropDownsubmit = (stock) => {
+  //   this.setState({
+  //     searchSymbol: stock.symbol
+  //   })
+  // }
 
   handleMetricFormChange = (e) => {
     this.setState({
@@ -306,7 +319,7 @@ class Portfolio extends Component {
     fetch(`https://cors-anywhere.herokuapp.com/http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=${e.target.value}&lang=english`, {
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
         // 'Access-Control-Allow-Origin': '*',
       },
     })
@@ -394,7 +407,7 @@ class Portfolio extends Component {
               />
             <input type="submit" value="Search" className="stock-submitButton"/>
             </form>
-            {this.renderStockDropDown()}
+            {/*this.renderStockDropDown()*/}
             <form onSubmit={this.handleBuySubmit} className="stock-portfolio__form">
               <label className="stock-portfolio__label">Number of Shares: </label>
                 <input
