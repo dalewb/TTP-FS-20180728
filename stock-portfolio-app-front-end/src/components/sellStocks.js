@@ -4,7 +4,8 @@ import '../styles/sellStocks.css';
 
 class SellStocks extends Component {
   state = {
-    renderModal: false
+    renderModal: false,
+    numberOfShares: 0,
   }
 
   getNumOfShares = () => {
@@ -19,7 +20,16 @@ class SellStocks extends Component {
       .then(json => console.log("Backend transactions are ", json.data))
   }
 
-  closeModal = () => {
+  handleNumChange = (e) => {
+    console.log("props are ", this.props);
+    this.setState({
+      numberOfShares: e.target.value,
+    })
+  }
+
+  handleSellSubmit = (e) => {
+    e.preventDefault()
+    console.log(this.state.numberOfShares)
     this.setState({
       renderModal: false
     })
@@ -30,7 +40,7 @@ class SellStocks extends Component {
       <div>
         <button
           onClick={() => this.getNumOfShares(this.props.stock)}
-          className="sell-button"
+          className="button"
         >
           Sell
         </button>
@@ -38,17 +48,26 @@ class SellStocks extends Component {
           isOpen={this.state.renderModal}
           onRequestClose={this.closeModal}
           contentLabel="Example Modal"
+          className="modal"
         >
+        <div className="modal-contents">
           <h2>Hello</h2>
-          <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
+          <form
+            className="modal-contents__form"
+            onSubmit={this.handleSellSubmit}
+          >
+            <input
+              type="number"
+              min={0}
+              max={this.props.stock[1].totalShares}
+              value={this.state.numberOfShares}
+              onChange={this.handleNumChange}
+              className="modal-contents__form-input"
+            />
+            <input type="submit" value="Sell" className="button"/>
           </form>
+        </div>
         </Modal>
       </div>
     )

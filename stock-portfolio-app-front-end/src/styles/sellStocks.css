@@ -1,4 +1,4 @@
-.sell-button {
+.button {
   float: right;
   margin-right: 20px;
   width: 80px;
@@ -7,7 +7,29 @@
   font-weight: bold;
   color: #fff;
   background-color: #acd6ef;
-  border-radius: 30px;
   border: 1px solid #66add6;
+  border-radius: 30px;
   cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  background-color: rgba(172, 214, 239, 0.5);
+}
+
+.modal-contents {
+  text-align: center;
+}
+
+.modal-contents__form {
+  padding: 5px;
+  display: flex;
+  padding: 5px;
+}
+
+.modal-contents__form-input {
+  text-align: center;
+  padding: 5px;
 }
