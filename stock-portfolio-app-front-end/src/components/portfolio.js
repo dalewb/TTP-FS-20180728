@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StockDropDown from '../components/stockDropDown'
+import SellStocks from '../components/sellStocks'
 import '../styles/portfolio.css';
 
 class Portfolio extends Component {
@@ -80,7 +81,7 @@ class Portfolio extends Component {
       return (
         <div key={stock[0]} className="stock-info__container">
           <div className="stock-info">
-            <button onClick={() => this.handleStockSell(stock)} className="stock-submitButton" value={stock}>Sell</button>
+            <SellStocks stock={stock} />
             <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
             <p className="stock-info__element">{stock[1].totalShares} shares</p>
             <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
@@ -271,9 +272,10 @@ class Portfolio extends Component {
     console.log("user is ", this.state.user);
     // delete transaction
     // change user account
-    fetch('http://localhost:3000/api/v1/transactions/')
-      .then(res => res.json())
-      .then(json => console.log("Backend transactions are ", json.data))
+
+    // fetch('http://localhost:3000/api/v1/transactions/')
+    //   .then(res => res.json())
+    //   .then(json => console.log("Backend transactions are ", json.data))
   }
 
   handleDropDownChange = (stock) => {
