@@ -78,17 +78,19 @@ class Portfolio extends Component {
   renderAllStocks = (currentPortfolio) => {
     return Object.entries(currentPortfolio).map(stock => {
       let renderColor = this.getStockColor(stock[1].openPrice, stock[1].price)
-      return (
-        <div key={stock[0]} className="stock-info__container">
-          <div className="stock-info">
-            <SellStocks stock={stock} />
-            <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
-            <p className="stock-info__element">{stock[1].totalShares} shares</p>
-            <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
-            {this.state.metricValueReturn === "toggle_stock_prices" ? <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price).toFixed(2)}</p> : null}
+      if (stock[1].totalShares > 0) {
+        return (
+          <div key={stock[0]} className="stock-info__container">
+            <div className="stock-info">
+              <SellStocks stock={stock} />
+              <p className="stock-info__element" style={{color: renderColor}}>{stock[0]}</p>
+              <p className="stock-info__element">{stock[1].totalShares} shares</p>
+              <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price * stock[1].totalShares).toFixed(2)}</p>
+              {this.state.metricValueReturn === "toggle_stock_prices" ? <p className="stock-info__element" style={{color: renderColor}}>${(stock[1].price).toFixed(2)}</p> : null}
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
     })
   }
 
@@ -204,6 +206,7 @@ class Portfolio extends Component {
       })
       return
     }
+    console.log("State before transaction is ",this.state)
     const bodyData = JSON.stringify({
       symbol: this.state.stockSymbol,
       user_id: this.state.user.id,
@@ -220,7 +223,8 @@ class Portfolio extends Component {
       body: bodyData
     })
       .then(res => res.json())
-      .then(json => this.changeUserAccount(transactionCost))
+      .then(json => console.log("Create transaction response is ", json))
+      // .then(json => this.changeUserAccount(transactionCost))
   }
 
   makePurchase = () => {

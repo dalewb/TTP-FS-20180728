@@ -59,7 +59,7 @@ class SellStocks extends Component {
           >
             <input
               type="number"
-              min={0}
+              min={1}
               max={this.props.stock[1].totalShares}
               value={this.state.numberOfShares}
               onChange={this.handleNumChange}
